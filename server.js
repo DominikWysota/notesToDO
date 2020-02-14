@@ -3,7 +3,6 @@ var path = require("path");
 var bodyParser = require("body-parser");
 
 var tasks = require("./routes/tasks");
-app.use("/api", tasks);
 
 const cors = require("cors");
 
