@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
+import List from "./List";
 
 class App extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class App extends Component {
         <header>
           <h1 className="text-center">Notes</h1>
         </header>
+        <List />
       </>
     );
   }
