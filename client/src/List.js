@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { getList, addToList, deleteItem, updateItem } from "./ListFunctions";
+import "./List.css";
 
 class List extends Component {
   constructor() {
@@ -7,13 +8,27 @@ class List extends Component {
     this.state = {
       id: "",
       term: "",
-      items: []
+      items: [],
+      activeChange: []
     };
+
+    this.onChange = this.onChange.bind(this);
   }
 
   componentDidMount() {
     this.getAll();
   }
+
+  onChange = event => {
+    this.setState({ term: event.target.value });
+    console.log(this.state.editDisabled);
+  };
+
+  activeChange = () => {
+    this.setState({
+      activeChange: [false]
+    });
+  };
 
   getAll = () => {
     getList().then(data => {
@@ -26,6 +41,7 @@ class List extends Component {
           console.log(this.state.items);
         }
       );
+      this.activeChange();
     });
   };
 
@@ -34,6 +50,44 @@ class List extends Component {
     addToList("(empty)").then(() => {
       this.getAll();
     });
+  };
+
+  onUpdate = e => {
+    e.preventDefault();
+    updateItem(this.state.term, this.state.id).then(() => {
+      this.getAll();
+    });
+  };
+
+  onEdit = (item, itemid, index, e) => {
+    e.preventDefault();
+    if (this.state.activeChange[index] !== true) {
+      let activeChange = [false];
+      activeChange[index] = true;
+      this.setState({
+        id: itemid,
+        term: item,
+        activeChange: activeChange
+      });
+      setTimeout(() => {
+        document.querySelector(".textEdit").focus();
+      }, 100);
+    }
+  };
+
+  onDelete = (val, e) => {
+    e.preventDefault();
+    deleteItem(val);
+
+    var data = [...this.state.items];
+    data.filter(function(item, index) {
+      if (item[1] === val) {
+        data.splice(index, 1);
+      }
+      return true;
+    });
+    let activeChange = [false];
+    this.setState({ items: [...data], activeChange: activeChange });
   };
 
   render() {
@@ -48,9 +102,28 @@ class List extends Component {
             .reverse()
             .map((item, index) => (
               <div key={index}>
-                <div>
-                  <p>{item[0]}</p>
+                <div onClick={this.onEdit.bind(this, item[0], item[1], index)}>
+                  {this.state.activeChange[index] ? (
+                    <>
+                      <textarea
+                        className="textEdit"
+                        id="taskName"
+                        rows="20"
+                        maxLength="400"
+                        value={this.state.term || ""}
+                        onChange={this.onChange.bind(this)}
+                      />
+                      <button className="save" onClick={this.onUpdate.bind(this)}>
+                        Save
+                      </button>
+                    </>
+                  ) : (
+                    <p>{item[0]}</p>
+                  )}
                 </div>
+                <button className="deleteButton" onClick={this.onDelete.bind(this, item[1])}>
+                  X
+                </button>
               </div>
             ))}
         </section>
