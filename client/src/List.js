@@ -29,8 +29,33 @@ class List extends Component {
     });
   };
 
+  onAdd = e => {
+    e.preventDefault();
+    addToList("(empty)").then(() => {
+      this.getAll();
+    });
+  };
+
   render() {
-    return <></>;
+    return (
+      <>
+        <button className="addNote" onClick={this.onAdd}>
+          <h2>+</h2>
+        </button>
+        <section className="listNotes">
+          {this.state.items
+            .slice(0)
+            .reverse()
+            .map((item, index) => (
+              <div key={index}>
+                <div>
+                  <p>{item[0]}</p>
+                </div>
+              </div>
+            ))}
+        </section>
+      </>
+    );
   }
 }
 
