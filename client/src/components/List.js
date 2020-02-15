@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { getList, addToList, deleteItem, updateItem } from "./ListFunctions";
-import "./List.css";
+import "../stylesheets/List.css";
 
 class List extends Component {
   constructor() {
@@ -47,7 +47,7 @@ class List extends Component {
 
   onAdd = e => {
     e.preventDefault();
-    addToList("(empty)").then(() => {
+    addToList(`(Click and write)`).then(() => {
       this.getAll();
     });
   };
@@ -90,6 +90,10 @@ class List extends Component {
     this.setState({ items: [...data], activeChange: activeChange });
   };
 
+  boldText = () => {
+    document.querySelector(".textEdit").value += " <b>Bold Text</b>";
+  };
+
   render() {
     return (
       <>
@@ -105,11 +109,14 @@ class List extends Component {
                 <div onClick={this.onEdit.bind(this, item[0], item[1], index)}>
                   {this.state.activeChange[index] ? (
                     <>
+                      <button className="boldText" onClick={this.boldText}>
+                        Bold text
+                      </button>
                       <textarea
                         className="textEdit"
                         id="taskName"
                         rows="20"
-                        maxLength="400"
+                        maxLength="300"
                         value={this.state.term || ""}
                         onChange={this.onChange.bind(this)}
                       />
@@ -118,7 +125,7 @@ class List extends Component {
                       </button>
                     </>
                   ) : (
-                    <p>{item[0]}</p>
+                    <p dangerouslySetInnerHTML={{ __html: item[0] }}></p>
                   )}
                 </div>
                 <button className="deleteButton" onClick={this.onDelete.bind(this, item[1])}>

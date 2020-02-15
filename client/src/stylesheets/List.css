@@ -35,6 +35,10 @@
   border-radius: 10px;
 }
 
+.listNotes div > div {
+  width: 95%;
+}
+
 .listNotes p {
   margin: 0;
   padding: 20px 0;
@@ -75,4 +79,22 @@ textarea {
   position: absolute;
   bottom: 4px;
   right: -10px;
+}
+
+.boldText {
+  top: 2px;
+  border: none;
+  color: white;
+  background-color: black;
+  border-radius: 10px;
+  cursor: pointer;
+  position: absolute;
+}
+
+.boldText:hover,
+.save:hover,
+.deleteButton:hover {
+  background-color: rgb(124, 124, 124);
+  color: black;
+  transition: 0.5s;
 }
