@@ -3,7 +3,7 @@
 <table>
 <tr>
 <td>
-  This project wrote in language JavaSript. App operate add notes and save in database MongoDB in cloud.
+  Project written in language JavaSript. App operate add notes and save in database MongoDB in cloud.
 </td>
 </tr>
 </table>
