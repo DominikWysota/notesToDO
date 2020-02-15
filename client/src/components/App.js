@@ -12,12 +12,12 @@ class App extends Component {
   }
   render() {
     return (
-      <>
+      <div className="container">
         <header>
           <h1 className="text-center">Notes</h1>
         </header>
         <List />
-      </>
+      </div>
     );
   }
 }
